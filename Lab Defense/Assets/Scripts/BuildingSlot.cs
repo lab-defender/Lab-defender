@@ -29,6 +29,7 @@ public class BuildingSlot : MonoBehaviour
 
         GameObject towerToBuild = BuildingManager.towerToBuild;
         turret = (GameObject)Instantiate(towerToBuild, transform.position + offset, transform.rotation);
+        GameObject.Find("Game Controller").SendMessage("BuyTower");
     }
 
     void OnMouseEnter()

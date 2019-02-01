@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
 {
+    public Transform camTrans;
     public Transform trans;
     public GameObject enemyPrefab;
     public float spawnInterval;
@@ -23,6 +24,7 @@ public class EnemySpawn : MonoBehaviour
             {
                 timer = 0;
                 GameObject ene = Instantiate(enemyPrefab, trans.position, trans.rotation) as GameObject;
+                ene.GetComponent<EnemyControl>().cam = camTrans;
                 count++;
             }
 

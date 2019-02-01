@@ -6,6 +6,8 @@ public class Turret : MonoBehaviour
 {
     private Transform target;
     private float fireTimer = 0;
+    private int counter = 0;
+    private GameObject[] enemies;
 
     [Header("Variable")]
     public float range = 6f;
@@ -43,12 +45,13 @@ public class Turret : MonoBehaviour
         fireTimer += Time.deltaTime;
     }
 
+    /*
     void UpdateTarget()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
         GameObject nearestEnemy = null;
         float shortestDistance = Mathf.Infinity;
-
+        
         foreach (GameObject enemy in enemies)
         {
             float distance = Vector3.Distance(transform.position, enemy.transform.position);
@@ -68,6 +71,7 @@ public class Turret : MonoBehaviour
             target = null;
         }
     }
+    */
 
     void Shoot()
     {
