@@ -7,6 +7,7 @@ public class BuildingManager : MonoBehaviour
 {
     public static GameObject towerToBuild = null;
 
+    public bool[] slotEmpty;
     public GameObject[] towerButton;
     public GameObject[] towerPrefab;
     public int[] towerCost;
@@ -40,5 +41,11 @@ public class BuildingManager : MonoBehaviour
         DataManager.resource -= towerCost[index];
         GameObject.Find("Game Controller").SendMessage("DataUpdate");
         towerToBuild = null;
+    }
+
+    public void SellTower(int refund)
+    {
+        DataManager.resource += refund;
+        GameObject.Find("Game Controller").SendMessage("DataUpdate");
     }
 }

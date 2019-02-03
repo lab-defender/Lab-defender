@@ -42,6 +42,7 @@ public class EnemyControl : MonoBehaviour
     {
         DataManager.resource += worth;
         GameObject.Find("Game Controller").SendMessage("DataUpdate");
+        EnemySpawn.enemylist.Remove(this.gameObject);
         Destroy(gameObject);
     }
 }

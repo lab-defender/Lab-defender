@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Turret : MonoBehaviour
 {
@@ -8,25 +9,55 @@ public class Turret : MonoBehaviour
     private float fireTimer = 0;
     private int counter = 0;
     private GameObject[] enemies;
+    private bool beenUpgrade = false;
 
     [Header("Variable")]
     public float range = 6f;
     public float rotateSpeed = 10f;
     public float fireInterval = 0.5f;
+    public float rangeUp = 3f;
+    public int upgradeCost;
+    public int[] sellRefund;
+
+    [Header("Don't Mind")]
+    public int slotIndex = 0;
+    public int tier = 0;
 
     [Header("Intrinsic Setting")]
     public string enemyTag = "Enemy";
+    public Vector3 offset;
     public Transform pivot;
     public Transform firePoint;
     public GameObject bulletPrefab;
+    public GameObject menu;
+    public GameObject shadow;
+    public GameObject destroyEffect;
+    public Button upgradeButton;
+    public Text upgradeCostText;
+    public Text sellText;
+
     
     void Start()
     {
-        InvokeRepeating("UpdateTarget", 0f, 0.5f);
+        // InvokeRepeating("UpdateTarget", 0f, 0.5f);
+        upgradeCostText.text = upgradeCost.ToString();
+        sellText.text = sellRefund[0].ToString();
     }
 
     void Update()
     {
+        UpdateTarget();
+        if (DataManager.resource < upgradeCost || beenUpgrade)
+        {
+            upgradeButton.interactable = false;
+            shadow.SetActive(true);
+        }
+        else
+        {
+            upgradeButton.interactable = true;
+            shadow.SetActive(false);
+        }
+
         if (target == null)
             return;
 
@@ -45,33 +76,31 @@ public class Turret : MonoBehaviour
         fireTimer += Time.deltaTime;
     }
 
-    /*
     void UpdateTarget()
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
-        GameObject nearestEnemy = null;
-        float shortestDistance = Mathf.Infinity;
-        
-        foreach (GameObject enemy in enemies)
+      float distance;
+      if(target!=null)
         {
-            float distance = Vector3.Distance(transform.position, enemy.transform.position);
-            if (distance < shortestDistance)
+               distance = Vector3.Distance(transform.position, target.transform.position);
+               if(distance>range)
+               target=null;
+        }
+      else
+        {
+            foreach (GameObject enemy in EnemySpawn.enemylist)
             {
-                shortestDistance = distance;
-                nearestEnemy = enemy;
+                if (enemy != null)
+                {
+                    distance = Vector3.Distance(transform.position, enemy.transform.position);
+                    if (distance < range)
+                    {
+                            target=enemy.transform;
+                            break;
+                    }
+                }
             }
         }
-
-        if (nearestEnemy != null && shortestDistance <= range)
-        {
-            target = nearestEnemy.transform;
-        }
-        else
-        {
-            target = null;
-        }
     }
-    */
 
     void Shoot()
     {
@@ -86,5 +115,37 @@ public class Turret : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, range);
+    }
+
+    void OnMouseDown()
+    {
+        Debug.Log("Click");
+        menu.SetActive(true);
+    }
+
+    public void CloseMenu()
+    {
+        menu.SetActive(false);
+    }
+
+    public void Sell()
+    {
+        GameObject.Find("Game Controller").GetComponent<BuildingManager>().slotEmpty[slotIndex] = true;
+        GameObject.Find("Game Controller").GetComponent<BuildingManager>().SellTower(sellRefund[tier]);
+        menu.SetActive(false);
+        GameObject effect = Instantiate(destroyEffect, gameObject.transform.position + offset, gameObject.transform.rotation);
+        Destroy(effect, 0.5f);
+        Destroy(gameObject);
+    }
+
+    public void Upgrade()
+    {
+        tier++;
+        range += rangeUp;
+        beenUpgrade = true;
+        sellText.text = sellRefund[tier].ToString();
+        DataManager.resource -= upgradeCost;
+        GameObject.Find("Game Controller").SendMessage("DataUpdate");
+        menu.SetActive(false);
     }
 }

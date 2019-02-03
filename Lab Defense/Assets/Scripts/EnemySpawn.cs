@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
 {
+    public static List<GameObject> enemylist = new List<GameObject>();
+
     public Transform camTrans;
     public Transform trans;
     public GameObject enemyPrefab;
@@ -25,6 +27,7 @@ public class EnemySpawn : MonoBehaviour
                 timer = 0;
                 GameObject ene = Instantiate(enemyPrefab, trans.position, trans.rotation) as GameObject;
                 ene.GetComponent<EnemyControl>().cam = camTrans;
+                enemylist.Add(ene);
                 count++;
             }
 

@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class BuildingSlot : MonoBehaviour
 {
+    public int slotIndex;
     public Color hoverColor;
     public Vector3 offset;
+    public GameObject gameController;
 
     private GameObject turret;
     private Renderer render;
@@ -27,8 +29,10 @@ public class BuildingSlot : MonoBehaviour
             return;
         }
 
+        gameController.GetComponent<BuildingManager>().slotEmpty[slotIndex] = false;
         GameObject towerToBuild = BuildingManager.towerToBuild;
         turret = (GameObject)Instantiate(towerToBuild, transform.position + offset, transform.rotation);
+        turret.GetComponent<Turret>().slotIndex = slotIndex;
         GameObject.Find("Game Controller").SendMessage("BuyTower");
     }
 
@@ -37,7 +41,8 @@ public class BuildingSlot : MonoBehaviour
         if (BuildingManager.towerToBuild == null)
             return;
 
-        render.material.color = hoverColor;
+        if(gameController.GetComponent<BuildingManager>().slotEmpty[slotIndex])
+            render.material.color = hoverColor;
     }
 
     void OnMouseExit()
