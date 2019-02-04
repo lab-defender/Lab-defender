@@ -29,6 +29,7 @@ public class Turret : MonoBehaviour
     public Transform pivot;
     public Transform firePoint;
     public GameObject bulletPrefab;
+    public GameObject zone;
     public GameObject menu;
     public GameObject shadow;
     public GameObject destroyEffect;
@@ -119,12 +120,13 @@ public class Turret : MonoBehaviour
 
     void OnMouseDown()
     {
-        Debug.Log("Click");
+        zone.SetActive(true);
         menu.SetActive(true);
     }
 
     public void CloseMenu()
     {
+        zone.SetActive(false);
         menu.SetActive(false);
     }
 
@@ -133,6 +135,7 @@ public class Turret : MonoBehaviour
         GameObject.Find("Game Controller").GetComponent<BuildingManager>().slotEmpty[slotIndex] = true;
         GameObject.Find("Game Controller").GetComponent<BuildingManager>().SellTower(sellRefund[tier]);
         menu.SetActive(false);
+        zone.SetActive(false);
         GameObject effect = Instantiate(destroyEffect, gameObject.transform.position + offset, gameObject.transform.rotation);
         Destroy(effect, 0.5f);
         Destroy(gameObject);
@@ -146,6 +149,10 @@ public class Turret : MonoBehaviour
         sellText.text = sellRefund[tier].ToString();
         DataManager.resource -= upgradeCost;
         GameObject.Find("Game Controller").SendMessage("DataUpdate");
-        menu.SetActive(false);
+
+        upgradeButton.GetComponent<UpgradeButton>().beenUpgraded = true;
+
+        Vector3 preScale = zone.GetComponent<Transform>().localScale;
+        zone.GetComponent<Transform>().localScale = new Vector3(range, preScale.y, range);
     }
 }
