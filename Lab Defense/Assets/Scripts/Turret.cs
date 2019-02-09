@@ -37,7 +37,7 @@ public class Turret : MonoBehaviour
     public Text upgradeCostText;
     public Text sellText;
 
-    
+
     void Start()
     {
         // InvokeRepeating("UpdateTarget", 0f, 0.5f);
@@ -65,9 +65,9 @@ public class Turret : MonoBehaviour
         //Target Lock
         Vector3 diretion = target.position - transform.position;
         Quaternion targetRotation = Quaternion.LookRotation(diretion);
-        Vector3 rotation = Quaternion.Lerp(pivot.rotation,targetRotation,Time.deltaTime * rotateSpeed).eulerAngles;
+        Vector3 rotation = Quaternion.Lerp(pivot.rotation, targetRotation, Time.deltaTime * rotateSpeed).eulerAngles;
         pivot.rotation = Quaternion.Euler(0, rotation.y, 0f);
-        
+
         if (fireTimer > fireInterval)
         {
             fireTimer = 0;
@@ -79,14 +79,14 @@ public class Turret : MonoBehaviour
 
     void UpdateTarget()
     {
-      float distance;
-      if(target!=null)
+        float distance;
+        if (target != null)
         {
-               distance = Vector3.Distance(transform.position, target.transform.position);
-               if(distance>range)
-               target=null;
+            distance = Vector3.Distance(transform.position, target.transform.position);
+            if (distance > range)
+                target = null;
         }
-      else
+        else
         {
             foreach (GameObject enemy in EnemySpawn.enemylist)
             {
@@ -95,8 +95,8 @@ public class Turret : MonoBehaviour
                     distance = Vector3.Distance(transform.position, enemy.transform.position);
                     if (distance < range)
                     {
-                            target=enemy.transform;
-                            break;
+                        target = enemy.transform;
+                        break;
                     }
                 }
             }

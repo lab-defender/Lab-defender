@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
 {
-    public static List<GameObject> enemylist = new List<GameObject>();
-
+    public static List<GameObject> enemylist=new List<GameObject>();
     public Transform camTrans;
     public Transform trans;
     public GameObject enemyPrefab;
