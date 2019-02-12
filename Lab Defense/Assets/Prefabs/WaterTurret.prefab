@@ -844,6 +844,7 @@ GameObject:
   - component: {fileID: 6722181934019900435}
   - component: {fileID: 5147524577643023335}
   - component: {fileID: 1630082079329994454}
+  - component: {fileID: 3684032849587497851}
   m_Layer: 0
   m_Name: WaterTurret
   m_TagString: Untagged
@@ -916,6 +917,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.7418823, y: 0.6158854, z: 1}
   m_Center: {x: -0.12905885, y: 0.30791754, z: 0}
+--- !u!114 &3684032849587497851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5147524577643023334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23efac6c76cc6cb4eb0976dff3150de1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reactmetal:
+  - Na
 --- !u!1 &5497173339677596257
 GameObject:
   m_ObjectHideFlags: 0
@@ -1423,14 +1438,13 @@ GameObject:
   - component: {fileID: 1582602808793256802}
   - component: {fileID: 4432052550656601076}
   - component: {fileID: 3625926749520303937}
-  - component: {fileID: 6705536134803605064}
   m_Layer: 0
   m_Name: Zone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1582602808793256802
 Transform:
   m_ObjectHideFlags: 0
@@ -1490,20 +1504,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &6705536134803605064
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7537181332900133655}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &7635965764192555245
 GameObject:
   m_ObjectHideFlags: 0

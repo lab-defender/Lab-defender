@@ -41,12 +41,17 @@ public class Turret : MonoBehaviour
     void Start()
     {
         // InvokeRepeating("UpdateTarget", 0f, 0.5f);
+        if(GetComponent<reactionlist>()!=null)
+        {
         upgradeCostText.text = upgradeCost.ToString();
         sellText.text = sellRefund[0].ToString();
+        }
     }
 
     void Update()
     {
+     if(GetComponent<reactionlist>()!=null)
+      {
         UpdateTarget();
         if (DataManager.resource < upgradeCost || beenUpgrade)
         {
@@ -75,11 +80,12 @@ public class Turret : MonoBehaviour
         }
 
         fireTimer += Time.deltaTime;
+      }
     }
 
     void UpdateTarget()
     {
-        float distance;
+      float distance;
         if (target != null)
         {
             distance = Vector3.Distance(transform.position, target.transform.position);
@@ -92,11 +98,15 @@ public class Turret : MonoBehaviour
             {
                 if (enemy != null)
                 {
-                    distance = Vector3.Distance(transform.position, enemy.transform.position);
-                    if (distance < range)
+                    string enemytype=enemy.tag;
+                    if(GetComponent<reactionlist>().reactmetal.Contains(enemytype))
                     {
-                        target = enemy.transform;
-                        break;
+                        distance = Vector3.Distance(transform.position, enemy.transform.position);
+                        if (distance < range)
+                        {
+                            target = enemy.transform;
+                            break;
+                        }
                     }
                 }
             }

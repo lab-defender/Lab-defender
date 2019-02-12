@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class DataManager : MonoBehaviour
 {
-    public static int resource = 100;
+    public static int resource = 500;
     public static int health = 10;
 
     public Text resourceText;
@@ -13,9 +13,16 @@ public class DataManager : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale=1;
         DataUpdate();
     }
-
+    void Update()
+    {
+        if(health<=0)
+        {
+            //Application.Quit();
+        }
+    }
     public void DataUpdate()
     {
         resourceText.text = resource.ToString();

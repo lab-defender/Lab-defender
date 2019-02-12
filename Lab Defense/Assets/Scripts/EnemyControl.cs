@@ -13,9 +13,12 @@ public class EnemyControl : MonoBehaviour
     public GameObject canvas;
     public Vector3 destination;
 
+    bool gotheat=false;
+
     [Header("Data")]
     public float health;
     public int worth;
+    
 
     private float originalHealth;
 
@@ -32,17 +35,48 @@ public class EnemyControl : MonoBehaviour
 
     public void Damage(float number)
     {
-        health -= number;
+      
+        float heat=0;
+        
+        if(gotheat)
+        {
+          heat=number;
+        }
+    
+        health -= number+heat;
         healthBar.GetComponent<Image>().fillAmount = health / originalHealth;
         if (health <= 0)
             Die();
     }
+    void OnTriggerEnter(Collider c)
+    {
+        Debug.Log("onboard");
+       if(c.gameObject.tag=="heatboard")
+        {
+            Debug.Log("onboard");
+            gotheat = true;
+        }
+    }
+      void OnTriggerStay(Collider c)
+    {
+       if(c.gameObject.tag=="heatboard")
+       gotheat=true;
+    }
+
+
+     void OnTriggerExit(Collider c)
+    {
+      if(c.gameObject.tag=="heatboard")
+      gotheat=false;
+    }
+
 
     void Die()
     {
         DataManager.resource += worth;
         GameObject.Find("Game Controller").SendMessage("DataUpdate");
         EnemySpawn.enemylist.Remove(this.gameObject);
+        EnemySpawn.totalcount-=1;
         Destroy(gameObject);
     }
 }

@@ -14,6 +14,8 @@ public class BuildingManager : MonoBehaviour
 
     private int index;
 
+    GameObject heatboard;
+
     void Update()
     {
 
@@ -28,6 +30,25 @@ public class BuildingManager : MonoBehaviour
             else
                 towerButton[i].GetComponent<Button>().interactable = true;
         }
+        
+         if(Input.GetMouseButtonDown(1))
+		{
+              Ray mray;
+			  RaycastHit insplace;
+              mray=Camera.main.ScreenPointToRay(Input.mousePosition);
+			  if(Physics.Raycast(mray,out insplace,1000,1<<10))
+			   {
+                  if(heatboard==null)
+                  {
+                      if(DataManager.resource>=30)
+                      {
+                       DataManager.resource-=30;
+                       heatboard=Instantiate(Resources.Load("heatboard"),insplace.point,Quaternion.identity) as GameObject;
+                       Invoke("Destroyboard",10);
+                      }
+                  }
+			   }
+		}
     }
 
     public void SetTowerToBuild(int towerIndex)
@@ -47,5 +68,10 @@ public class BuildingManager : MonoBehaviour
     {
         DataManager.resource += refund;
         GameObject.Find("Game Controller").SendMessage("DataUpdate");
+    }
+
+    void Destroyboard()
+    {
+        Destroy(heatboard);
     }
 }
